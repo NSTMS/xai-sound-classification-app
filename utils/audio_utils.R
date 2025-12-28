@@ -78,7 +78,20 @@ resample_audio_sample <- function(audio_sample) {
   )
 }
 
-mel_spectrogram_transformer <- transform_mel_spectrogram(
+augment_spectrogram_with_time_mask <- function(mel_spec, time_mask_rate) {
+  time_mask <- torchaudio::transform_timemasking(time_mask_param = time_mask_rate)
+  time_masked_spectogram <- time_mask(mel_spec)
+  return(time_masked_spectogram)
+}
+
+
+augment_spectrogram_with_frequency_mask <- function(mel_spec, mask_length) {
+  freq_mask <- torchaudio::transform_frequencymasking(freq_mask_param = mask_length)
+  frequency_masked_spectrogram <- freq_mask(mel_spec)
+  return(frequency_masked_spectrogram)
+}
+
+mel_spectrogram_transformer <- torchaudio::transform_mel_spectrogram(
   sample_rate = AUDIO_CONFIG$sample_rate,
   n_mels = AUDIO_CONFIG$n_mels,
   n_fft = AUDIO_CONFIG$n_fft,
@@ -88,7 +101,10 @@ mel_spectrogram_transformer <- transform_mel_spectrogram(
 )
 
 create_tensorized_mel_spectrogram <- function(audio_sample) {
-  waveform <- torch::torch_tensor(audio_sample@left, dtype = torch::torch_float())
+  waveform <- torch::torch_tensor(
+    audio_sample@left,
+    dtype = torch::torch_float()
+  )
   mel_spectogram <- mel_spectrogram_transformer(waveform)
   return(mel_spectogram)
 }
@@ -103,17 +119,18 @@ show_mel_spectogram <- function(wav) {
 }
 
 get_random_seewave_color_pallette <- function() {
-  return(sample(list(
-    temp.colors, 
-    reverse.gray.colors.1, 
-    reverse.gray.colors.2 ,
-    reverse.heat.colors,
-    reverse.terrain.colors ,
-    reverse.topo.colors,
-    reverse.cm.colors,
-    heat.colors, 
-    terrain.colors, 
-    topo.colors, 
-    cm.colors
-  ),1)[[1]])
+  return(sample(
+    list(
+      temp.colors,
+      reverse.gray.colors.1,
+      reverse.gray.colors.2,
+      reverse.heat.colors,
+      reverse.terrain.colors,
+      reverse.topo.colors,
+      reverse.cm.colors,
+      heat.colors,
+      terrain.colors,
+      topo.colors,
+      cm.colors
+    ),1)[[1]])
 }

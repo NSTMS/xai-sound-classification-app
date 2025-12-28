@@ -31,3 +31,12 @@ https://xai-tutorials.readthedocs.io/en/latest/_model_specific_xai/Grad-CAM.html
 
 Arytmetyka tensorowa w R:
 https://torch.mlverse.org/articles/tensors.html
+
+CNN:
+https://stanford.edu/~shervine/teaching/cs-230/cheatsheet-convolutional-neural-networks
+
+https://www.datacamp.com/tutorial/pytorch-cnn-tutorial
+
+https://www.datacamp.com/blog/rectified-linear-unit-relu
+
+https://medium.com/@sanjay_dutta/designing-your-own-convolutional-neural-network-cnn-model-a-step-by-step-guide-for-beginners-4e8b57836c81
